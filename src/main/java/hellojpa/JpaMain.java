@@ -72,11 +72,24 @@ public class JpaMain {
                     // 엔티티 매니저에서 불러온 엔티티는 call-by-reference, 알아서 바뀜
                     // em.persist(member);
     
-                    Member member = new Member(200L, "member200");
-                    em.persist(member);
+//                    Member member = new Member(200L, "member200");
+//                    em.persist(member);
+//
+//                    em.flush(); // 강제 호출 -> 1차 캐시는 유지, 변경 내용을 DB에 동기화
+//                    System.out.println("==============");
                     
-                    em.flush(); // 강제 호출 -> 1차 캐시는 유지, 변경 내용을 DB에 동기화
-                    System.out.println("==============");
+                    // 준영속 상태로 만드는 방법
+                    Member member = em.find(Member.class, 150L);
+                    member.setName("AAAAA");
+                    
+                    // detach
+                    // em.detach(member);
+                    
+                    // 영속성 컨텍스트를 완전히 초기화
+                    // em.clear();
+                    
+                    // 영속성 컨텍스트를 종료
+                    // em.close();
                     
                     // 이때 DB에 등록
                     // flush 발생 -> commit, jpql 쿼리 실행 시 발생
