@@ -79,8 +79,8 @@ public class JpaMain {
 //                    System.out.println("==============");
                     
                     // 준영속 상태로 만드는 방법
-                    Member member = em.find(Member.class, 150L);
-                    member.setName("AAAAA");
+//                    Member member = em.find(Member.class, 150L);
+//                    member.setName("AAAAA");
                     
                     // detach
                     // em.detach(member);
@@ -90,6 +90,12 @@ public class JpaMain {
                     
                     // 영속성 컨텍스트를 종료
                     // em.close();
+                    
+                    Member member = new Member();
+                    //member.setId("ID_A");
+                    member.setUsername("C");
+                    
+                    em.persist(member);
                     
                     // 이때 DB에 등록
                     // flush 발생 -> commit, jpql 쿼리 실행 시 발생
