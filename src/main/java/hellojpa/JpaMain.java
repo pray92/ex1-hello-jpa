@@ -66,13 +66,26 @@ public class JpaMain {
 //                    System.out.println("==============");
                     
                     // 엔티티 수정 -> 변경 감지(Dirty Checking)
-                    Member member = em.find(Member.class, 150L);
-                    member.setName("ZZZZ");
+//                    Member member = em.find(Member.class, 150L);
+//                    member.setName("ZZZZ");
                     // Persist 불필요, Collection 처럼 생각
                     // 엔티티 매니저에서 불러온 엔티티는 call-by-reference, 알아서 바뀜
                     // em.persist(member);
     
+                    Member member = new Member(200L, "member200");
+                    em.persist(member);
+                    
+                    em.flush(); // 강제 호출 -> 1차 캐시는 유지, 변경 내용을 DB에 동기화
+                    System.out.println("==============");
+                    
                     // 이때 DB에 등록
+                    // flush 발생 -> commit, jpql 쿼리 실행 시 발생
+                    // em.setFlushMode(FlushModeType.COMMIT) 설정 시 jpql에서 실행 안됨
+                    // 직접 호출 가능 em.flush()
+                    // 1. Dirty Checking
+                    // 2. 수정된 엔티티 쓰기 지연 SQL 저장소에 등록
+                    // 3. 쓰기 지연 SQL 저장소의 쿼리를 데이터베이스에 전송
+                    // (등록, 수정, 삭제)
                     tx.commit();
                 } catch (Exception e){
                     tx.rollback();
