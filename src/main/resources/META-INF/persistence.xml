@@ -20,6 +20,7 @@
             <property name="hibernate.show_sql" value="true"/>          <!-- 쿼리 로그 출력 -->
             <property name="hibernate.format_sql" value="true"/>        <!-- 포맷팅 -->
             <property name="hibernate.use_sql_comments" value="true"/>  <!-- 쿼리 주석 -->
+            <property name="hibernate.jdbc.batch_size" value="10"/>     <!-- 해당 크기만큼 모아서 DB에 쿼리를 보냄 -->
             <!--<property name="hibernate.hbm2ddl.auto" value="create" />-->
         </properties>
     </persistence-unit>

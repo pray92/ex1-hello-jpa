@@ -17,14 +17,14 @@ public class JpaMain {
                 EntityTransaction tx = em.getTransaction();
                 tx.begin();
                 try {
-                    Member member = em.find(Member.class, 1L);      // 조회
+                    /*Member member = em.find(Member.class, 1L);      // 조회
                     // em.remove(member);                               // 삭제
                     // member.setName("HelloJPA");                     // 업데이트(persist 불필요)
                     // em.persist(member);
                     
                     // 전체 회원 검색
-                    /*List<Member> result = em.createQuery("select m from Member as m", Member.class)
-                            .getResultList();*/
+                    List<Member> result = em.createQuery("select m from Member as m", Member.class)
+                            .getResultList();
                     
                     // 5번째부터 8개까지 검색
                     List<Member> result = em.createQuery("select m from Member as m", Member.class)
@@ -33,8 +33,46 @@ public class JpaMain {
                             .getResultList();
                     for(Member mem : result){
                         System.out.println("member.name = " + mem.getName());
-                    }
+                    }*/
     
+                    // 비영속 -> 영속 컨텍스트에 없음
+//                    Member member = new Member();
+//                    member.setId(101L);
+//                    member.setName("HelloJPA");
+                    
+                    // 영속, 객체를 엔티티 매니저에 저장 -> 엔티티 매니저를 통해 영속 컨텍스트에 등록
+                    // 이때 DB에 저장 X, 트랜잭션을 지원하는 쓰기 지연(Delay)
+                    // Persist를 수행하면 등록만하고 DB에 보내지 않음
+//                    em.persist(member);
+                    // 준영속, 회원 엔티티를 영속성 컨텍스트에서 분리
+//                    em.detach(member);
+                    // 객체를 삭제한 상태(삭제)
+//                    em.remove(member);
+    
+//                    Member findMember1 = em.find(Member.class, 101L);
+//                    Member findMember2 = em.find(Member.class, 101L);
+//
+//                    // 동일성 보장
+//                    System.out.println(findMember1 == findMember2);
+                    
+                    // 트랜잭션을 지원하는 쓰기 지연
+//                    Member member1 = new Member(150L, "A");
+//                    Member member2 = new Member(160L, "B");
+                    
+                    // 영속성 컨텍스트에 쌓임 -> 버퍼링 기능 사용 가능
+//                    em.persist(member1);
+//                    em.persist(member2);
+//
+//                    System.out.println("==============");
+                    
+                    // 엔티티 수정 -> 변경 감지(Dirty Checking)
+                    Member member = em.find(Member.class, 150L);
+                    member.setName("ZZZZ");
+                    // Persist 불필요, Collection 처럼 생각
+                    // 엔티티 매니저에서 불러온 엔티티는 call-by-reference, 알아서 바뀜
+                    // em.persist(member);
+    
+                    // 이때 DB에 등록
                     tx.commit();
                 } catch (Exception e){
                     tx.rollback();
