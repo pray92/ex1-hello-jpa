@@ -108,12 +108,10 @@ public class JpaMain {
                     
                     Member findMember = em.find(Member.class, member.getId());
     
-                    Team findTeam = findMember.getTeam();
-                    System.out.println("findTeam = " + findTeam.getName());
-    
-                    // 다른 팀으로 수정 가능,
-                    Team newTeam = em.find(Team.class, 100L);
-                    findMember.setTeam(newTeam);
+                    List<Member> members = findMember.getTeam().getMembers();
+                    for(Member m : members){
+                        System.out.println("m = " +m.getUsername());
+                    }
     
                     // 이때 DB에 등록
                     // flush 발생 -> commit, jpql 쿼리 실행 시 발생
