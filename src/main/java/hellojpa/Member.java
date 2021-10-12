@@ -218,15 +218,33 @@ public class Member {
 		return team;
 	}
 	
-	public void setTeam(Team team) {
+	public void changeTeam(Team team) {
 		this.team = team;
+		// 양방향 연관관계 초기화 -> 연관관계 편의 메소드
+		// 실제로 관례상 setter에서 쓰지 않음 -> change로 바꿔준다
+		team.getMembers().add(this);
 	}
+	
+	/**
+	 * NOTE: Team에선 Member의 toString을 호출하고
+	 * Member에선 Team의 toString을 호출하게 되어 무한 루프가 발생
+	 * 따라서 양방향 매핑 시에 무한루프를 주의하자
+	 * @return
+	 */
+//	@Override
+//	public String toString() {
+//		return "Member{" +
+//				"id=" + id +
+//				", username='" + username + '\'' +
+//				", team=" + team +
+//				'}';
+//	}
 	
 	//	public Long getTeamId() {
 //		return teamId;
 //	}
 //
-//	public void setTeamId(Long teamId) {
+//	public void changeTeamId(Long teamId) {
 //		this.teamId = teamId;
 //	}
 }

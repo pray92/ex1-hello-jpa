@@ -57,4 +57,19 @@ public class Team {
 	public void setMembers(List<Member> members) {
 		this.members = members;
 	}
+	
+	/**
+	 * NOTE: Team에선 Member의 toString을 호출하고
+	 * Member에선 Team의 toString을 호출하게 되어 무한 루프가 발생
+	 * 따라서 양방향 매핑 시에 무한루프를 주의하자
+	 * @return
+	 */
+//	@Override
+//	public String toString() {
+//		return "Team{" +
+//				"id=" + id +
+//				", name='" + name + '\'' +
+//				", members=" + members +
+//				'}';
+//	}
 }

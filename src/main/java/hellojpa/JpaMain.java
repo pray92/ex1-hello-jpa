@@ -90,28 +90,71 @@ public class JpaMain {
                     
                     // 영속성 컨텍스트를 종료
                     // em.close();
+                    ;
+                    // 가장 많이 하는 실수 1
+                    // 관계의 Owner는 Member의 Team
+                    // 정상적인 매핑이 일어나지 않는다 (TeamID null)
+                    // Team의 members는 읽기 전용(OneToMany(mappedBy))
+                    // 따라서 Owner를 통해 관계를 설정해야 함
+                    // 저장
+//                    Member member = new Member();
+//                    member.setUsername("member1");
+//                    // 영속 상태(persist)가 되면 Id가 자동 생성됨
+//                    // member.setTeamId(team.getId());
+//                    em.persist(member);
+//
+//                    Team team = new Team();
+//                    team.setName("TeamA");
+//                    team.getMembers().add(member);
+//                    em.persist(team);
+    
+                    ;
+                    // 가장 많이 하는 실수 2
+                    // 양방향 매핑 시 연관관계의 주인에 값을 입력해야 함
+                    // 그러나 순수 객체 관계를 고려하면 항상 양쪽 다 값을 입력해야 함
+                    // 저장
+//                    Team team = new Team();
+//                    team.setName("TeamA");
+//                    em.persist(team);
+//
+//                    Member member = new Member();
+//                    member.setUsername("member1");
+//                    member.changeTeam(team);
+//                    em.persist(member);
+//
+////                    em.flush();
+////                    em.clear();
+//
+//                    // 1차 캐시에 있는 것을 가져오는데
+//                    // 이 때 member가 DB에 등록되어 있지 않으면(flush를 안함)
+//                    // 1차 캐시에 있음에도 members 개수가 0개가 됨
+//                    // 따라서 순수 객체 관계랑 로직을 위해서라도
+//                    // 양방향 연관관계는 양쪽에 다 값을 세팅해줘야 한다.
+//                    // 권장 방법
+//                    // 연관관계 편의 메서드를 생성(setMember 참조)
+//                    // 편의 메서드를 양쪽에 넣으면 무한루프 가능성이 있음, 한쪽에 넣는 걸 권장
+//                    // 양방향 매핑 시 무한 루프를 조심(toString, lombok, JSON 생성 라이브러리)
+//                    
+//                    Team findTeam = em.find(Team.class, team.getId());
+//                    List<Member> members = findTeam.getMembers();
+                    ;
                     
                     // 저장
                     Team team = new Team();
                     team.setName("TeamA");
                     em.persist(team);
-                    
+    
                     Member member = new Member();
                     member.setUsername("member1");
                     // 영속 상태(persist)가 되면 Id가 자동 생성됨
-                    // member.setTeamId(team.getId());
-                    member.setTeam(team);
+                    // member.changeTeamId(team.getId());
+                    member.changeTeam(team);
                     em.persist(member);
                     
                     em.flush();
                     em.clear();
                     
-                    Member findMember = em.find(Member.class, member.getId());
-    
-                    List<Member> members = findMember.getTeam().getMembers();
-                    for(Member m : members){
-                        System.out.println("m = " +m.getUsername());
-                    }
+                    
     
                     // 이때 DB에 등록
                     // flush 발생 -> commit, jpql 쿼리 실행 시 발생
