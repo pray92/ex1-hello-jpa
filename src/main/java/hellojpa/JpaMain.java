@@ -91,12 +91,30 @@ public class JpaMain {
                     // 영속성 컨텍스트를 종료
                     // em.close();
                     
-                    Member member = new Member();
-                    //member.setId("ID_A");
-                    member.setUsername("C");
+                    // 저장
+                    Team team = new Team();
+                    team.setName("TeamA");
+                    em.persist(team);
                     
+                    Member member = new Member();
+                    member.setUsername("member1");
+                    // 영속 상태(persist)가 되면 Id가 자동 생성됨
+                    // member.setTeamId(team.getId());
+                    member.setTeam(team);
                     em.persist(member);
                     
+                    em.flush();
+                    em.clear();
+                    
+                    Member findMember = em.find(Member.class, member.getId());
+    
+                    Team findTeam = findMember.getTeam();
+                    System.out.println("findTeam = " + findTeam.getName());
+    
+                    // 다른 팀으로 수정 가능,
+                    Team newTeam = em.find(Team.class, 100L);
+                    findMember.setTeam(newTeam);
+    
                     // 이때 DB에 등록
                     // flush 발생 -> commit, jpql 쿼리 실행 시 발생
                     // em.setFlushMode(FlushModeType.COMMIT) 설정 시 jpql에서 실행 안됨

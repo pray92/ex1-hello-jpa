@@ -51,10 +51,10 @@ import java.util.Date;
 
 @Entity
 //@SequenceGenerator(name = "member_seq_generator", sequenceName = "member_seq")
-@TableGenerator(
-        name = "MEMBER_SEQ_GENERATOR",
-        table = "MY_SEQUENCES",
-        pkColumnValue = "MEMBER_SEQ", allocationSize = 1)
+//@TableGenerator(
+//        name = "MEMBER_SEQ_GENERATOR",
+//        table = "MY_SEQUENCES",
+//        pkColumnValue = "MEMBER_SEQ", allocationSize = 1)
 public class Member {
 //
 //    @Id
@@ -156,32 +156,77 @@ public class Member {
 //        this.description = description;
 //    }
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE,
-            generator = "MEMBER_SEQ_GENERATOR")
-    private Long id;
-    
-    @Column(name = "name", nullable = false)
-    private String username;
-    
-    public Member(){
-    
-    }
-    
-    public Long getId() {
-        return id;
-    }
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    public String getUsername() {
-        return username;
-    }
-    
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.TABLE,
+//            generator = "MEMBER_SEQ_GENERATOR")
+//    private Long id;
+//
+//    @Column(name = "name", nullable = false)
+//    private String username;
+//
+//    public Member(){
+//
+//    }
+//
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
+//
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
+
+	@Id @GeneratedValue
+	@Column(name = "MEMBER_ID")
+	private Long id;
+	
+	@Column(name = "USERNAME")
+	private String username;
+	
+	@ManyToOne						// Member 입장에서 다, Team 입장에선 1 -> 다대1
+	@JoinColumn(name = "TEAM_ID")
+	private Team team;
+	
+//	@Column(name = "TEAM_ID")
+//	private Long teamId;
+	
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public Team getTeam() {
+		return team;
+	}
+	
+	public void setTeam(Team team) {
+		this.team = team;
+	}
+	
+	//	public Long getTeamId() {
+//		return teamId;
+//	}
+//
+//	public void setTeamId(Long teamId) {
+//		this.teamId = teamId;
+//	}
 }
