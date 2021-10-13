@@ -165,6 +165,13 @@ public class JpaMain {
 //                    team.getMembers().add(member);
 //
 //                    em.persist(team);
+                    ;
+                    // 일대일 관계
+                    // 주 테이블이나 대상 테이블 중에 외래 키 선택 가능
+                    // 주 테이블 또는 대상 테이블에 외래키 둘 중 하나
+                    // 외래 키에 데이터베이스 유니크(UNI) 제약조건 추가
+                    // 일대일 단방향 관계는 JPA 지원 X, 양방향 관계만 지원
+                    
                     
                     // 저장
                     Team team = new Team();

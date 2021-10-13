@@ -198,6 +198,10 @@ public class Member {
 //	@Column(name = "TEAM_ID")
 //	private Long teamId;
 	
+	@OneToOne
+	@JoinColumn(name = "LOCKER_ID")
+	private Locker locker;
+	
 	public Long getId() {
 		return id;
 	}
@@ -223,6 +227,14 @@ public class Member {
 		// 양방향 연관관계 초기화 -> 연관관계 편의 메소드
 		// 실제로 관례상 setter에서 쓰지 않음 -> change로 바꿔준다
 		team.getMembers().add(this);
+	}
+	
+	public Locker getLocker() {
+		return locker;
+	}
+	
+	public void setLocker(Locker locker) {
+		this.locker = locker;
 	}
 	
 	/**
