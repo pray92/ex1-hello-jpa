@@ -139,6 +139,33 @@ public class JpaMain {
 //                    List<Member> members = findTeam.getMembers();
                     ;
                     
+                    // 연관관계 고려사항 3가지
+                    // 1. 다중성
+                    // 2. 단방향, 양방향
+                    // 3. 연관관계 주인
+                    
+                    // Team의 members 일대다, Owner가 일인 경우(일반적으로 다가 Owner)
+                    // 이 경우, 쿼리문도 더 나감(Insert * 2, Update * 1(추가)) -> 성능 이슈, 그리 크진 않음
+                    // 수 십개의 테이블에서 쿼리문이 여러개 나가는 경우엔 로직 관리가 힘들어짐
+                    // 그래서 되도록 다대일 단방향을 수행하고, 필요에 따라 양방향으로 가는 방식으로
+                    // (다가 Owner, 일쪽은 Read-only 식으로)
+                    //
+                    // 추가로, 일대다 단방향은 일대다에서 일이 연관관계 주인인데
+                    // 테이블 일대다 관계는 항상 다쪽에 외래 키가 존재 -> 객체와의 차이때문에 관계가 안맞음
+                    // 그리고 일대다 단방향 시 반드시 @JoinColumn을 해줘야 함
+                    // -> 그렇지 않으면 조인 테이블 방식 사용, 이 경우 TEAM_MEMBER 라는 중간 테이블이 생성되어 버림(12:00 일대다 참고)
+//                    Member member = new Member();
+//                    member.setUsername("member1");
+//
+//                    em.persist(member);
+//
+//                    Team team = new Team();
+//                    team.setName("teamA");
+//
+//                    team.getMembers().add(member);
+//
+//                    em.persist(team);
+                    
                     // 저장
                     Team team = new Team();
                     team.setName("TeamA");

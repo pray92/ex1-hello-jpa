@@ -33,6 +33,8 @@ public class Team {
 	// 외래키가 있는 곳(Many 쪽)을 주인(Owner)으로 정해라
 	@OneToMany(mappedBy = "team" /* 변수 명 */) 	/* 나는 team에 의해 관리된다. members는 조회용이다. */
 	private List<Member> members = new ArrayList<>();
+	// 일대다 단방향, 즉 일인 엔티티를 Owner로 두는 경우, @OneToMany(매핑X), @JoinColumn(name = "TEAM_ID")로 선언
+	// 비추천하는 방식이지만 객체 지향 설계상 이럴 가능성이 꽤 있다고 한다.
 	
 	public Long getId() {
 		return id;
