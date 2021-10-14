@@ -47,7 +47,9 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 //@SequenceGenerator(name = "member_seq_generator", sequenceName = "member_seq")
@@ -202,6 +204,9 @@ public class Member {
 	@JoinColumn(name = "LOCKER_ID")
 	private Locker locker;
 	
+	@OneToMany(mappedBy = "member")
+	private List<MemberProduct> memberProducts = new ArrayList<>();
+	
 	public Long getId() {
 		return id;
 	}
@@ -236,6 +241,8 @@ public class Member {
 	public void setLocker(Locker locker) {
 		this.locker = locker;
 	}
+	
+	
 	
 	/**
 	 * NOTE: Team에선 Member의 toString을 호출하고
