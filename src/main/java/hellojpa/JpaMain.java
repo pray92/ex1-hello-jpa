@@ -190,7 +190,7 @@ public class JpaMain {
                     Team team = new Team();
                     team.setName("TeamA");
                     em.persist(team);
-    
+                    ;
                     Member member = new Member();
                     member.setUsername("member1");
                     // 영속 상태(persist)가 되면 Id가 자동 생성됨
